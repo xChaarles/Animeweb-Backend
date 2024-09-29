@@ -102,7 +102,6 @@ public class UserServiceImpl {
 
     public ReqRes getAllUsers() {
         ReqRes reqRes = new ReqRes();
-
         try {
             List<Users> result = userDao.findAll();
             if (!result.isEmpty()) {
@@ -207,6 +206,5 @@ public class UserServiceImpl {
             reqRes.setMessage("Se produjo un error al obtener la información del usuario: " + e.getMessage());
         }
         return reqRes;
-
     }
 }
