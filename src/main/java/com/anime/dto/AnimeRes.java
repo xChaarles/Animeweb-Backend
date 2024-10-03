@@ -1,6 +1,7 @@
 package com.anime.dto;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 
 public class AnimeRes {
@@ -9,10 +10,10 @@ public class AnimeRes {
     private String anombre;
     private String adescripcion;
     private String aportadaUrl;
-    private Date fechaEmision;
+    private LocalDate fechaEmision;
     private String genero;
 
-    public AnimeRes(Integer aid, String anombre, String adescripcion, String aportadaUrl, Date fechaEmision, String genero) {
+    public AnimeRes(Integer aid, String anombre, String adescripcion, String aportadaUrl, LocalDate fechaEmision, String genero) {
         this.aid = aid;
         this.anombre = anombre;
         this.adescripcion = adescripcion;
@@ -22,7 +23,6 @@ public class AnimeRes {
     }
 
     public AnimeRes(){
-
     }
 
     public String getAdescripcion() {
@@ -57,11 +57,11 @@ public class AnimeRes {
         this.aportadaUrl = aportadaUrl;
     }
 
-    public Date getFechaEmision() {
+    public LocalDate getFechaEmision() {
         return fechaEmision;
     }
 
-    public void setFechaEmision(Date fechaEmision) {
+    public void setFechaEmision(LocalDate fechaEmision) {
         this.fechaEmision = fechaEmision;
     }
 

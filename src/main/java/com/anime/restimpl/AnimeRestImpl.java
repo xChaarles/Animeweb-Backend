@@ -2,17 +2,14 @@ package com.anime.restimpl;
 
 import com.anime.dto.AnimeRes;
 import com.anime.entity.Anime;
-import com.anime.entity.Genero;
 import com.anime.serviceimpl.AnimeServiceImpl;
 import com.anime.serviceimpl.GeneroServiceimpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping
@@ -29,6 +26,7 @@ public class AnimeRestImpl {
         return animeServiceImpl.ListAnime();
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PostMapping("/admin/add-anime")
     public Anime create(@RequestBody AnimeRes animeRes) {
         return animeServiceImpl.CreateAnime(animeRes);
@@ -41,8 +39,8 @@ public class AnimeRestImpl {
     }
 
     @PutMapping("/admin/update-anime/{id}")
-    public ResponseEntity<AnimeRes>  update(@PathVariable("id") Integer aid, @RequestBody AnimeRes updateRest) {
-        AnimeRes updateAnime = animeServiceImpl.updateAnime(aid, updateRest);
+    public ResponseEntity<AnimeRes> update(@PathVariable Integer id, @RequestBody AnimeRes updateRest) {
+        AnimeRes updateAnime = animeServiceImpl.updateAnime(id, updateRest);
         return ResponseEntity.ok(updateAnime);
     }
 

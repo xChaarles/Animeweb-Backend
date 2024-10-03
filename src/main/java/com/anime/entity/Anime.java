@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.Getter;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,9 +32,9 @@ public class Anime {
     private String aportadaUrl;
 
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column
-    private Date fechaEmision;
+    private LocalDate fechaEmision;
 
     @ManyToOne
     @JoinColumn(name = "genero_id")

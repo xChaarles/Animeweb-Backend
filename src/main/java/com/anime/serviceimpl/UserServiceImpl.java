@@ -53,22 +53,33 @@ public class UserServiceImpl {
         return resp;
     }
 
-    //Metodo para inicio de sesion
-    public ReqRes login(ReqRes logonRequest){
+    public ReqRes login(ReqRes logonRequest) {
         ReqRes response = new ReqRes();
         try {
-            authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken(logonRequest.getUemail(),
-                            logonRequest.getUpassword()));
+            // Autenticar al usuario
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    logonRequest.getUemail(), logonRequest.getUpassword()));
+
+            // Obtener el usuario autenticado
             var user = userDao.findByUemail(logonRequest.getUemail()).orElseThrow();
+
+            // Verificar que el usuario esté activo
+            if (!"ACTIVE".equalsIgnoreCase(user.getStatus())) {
+                // Cambiar el estado a "ACTIVE"
+                user.setStatus("ACTIVE");
+                userDao.save(user); // Asegúrate de que tu UserDao tiene este método
+            }
+
+            // Generar tokens
             var jwt = jwtUtil.generateSecretToken(user);
             var refreshToken = jwtUtil.generateRefreshToken(new HashMap<>(), user);
+
             response.setStatusCode(200);
             response.setToken(jwt);
             response.setUrole(user.getUrole());
             response.setRefreshToken(refreshToken);
             response.setExpirationTime("24Hrs");
-            response.setMessage("Inicio de sesion existoso");
+            response.setMessage("Inicio de sesión exitoso");
 
         } catch (RuntimeException e) {
             response.setStatusCode(500);
@@ -76,6 +87,7 @@ public class UserServiceImpl {
         }
         return response;
     }
+
 
     public ReqRes refreshToken(ReqRes refreshTokenrequest){
         ReqRes response = new ReqRes();

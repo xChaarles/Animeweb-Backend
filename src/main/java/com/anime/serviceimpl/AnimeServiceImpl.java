@@ -57,14 +57,19 @@ public class AnimeServiceImpl {
         return animeDao.save(anime);
     }
 
-    public AnimeRes updateAnime(Integer aid, AnimeRes updateRest) {
-        Anime animes = animeDao.findById(aid)
-                .orElseThrow(() -> new EntityNotFoundException("Anime no encontrado con id: " + aid));
+    public AnimeRes updateAnime(Integer id, AnimeRes updateRest) {
+        Anime animes = animeDao.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Anime no encontrado con id: " + id));
 
         animes.setAnombre(updateRest.getAnombre());
         animes.setAdescripcion(updateRest.getAdescripcion());
         animes.setAportadaUrl(updateRest.getAportadaUrl());
-        animes.setFechaEmision(updateRest.getFechaEmision());
+
+        try {
+            animes.setFechaEmision(updateRest.getFechaEmision());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error al actualizar la fecha de emisión: " + e.getMessage());
+        }
 
         Optional<Genero> generoOpt = generoDao.findByGnombre(updateRest.getGenero());
         if (generoOpt.isPresent()){
