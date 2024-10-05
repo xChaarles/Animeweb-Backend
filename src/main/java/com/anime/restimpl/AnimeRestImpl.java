@@ -49,4 +49,10 @@ public class AnimeRestImpl {
         animeServiceImpl.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    // Filtrar animes por ID de género
+    @GetMapping("public/genero/{generoNombre}")
+    public List<Anime> obtenerAnimesPorGeneroId(@PathVariable String generoNombre) {
+        return animeServiceImpl.obtenerAnimesPorNombreGenero(generoNombre);
+    }
 }

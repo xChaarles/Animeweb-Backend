@@ -93,4 +93,8 @@ public class AnimeServiceImpl {
     public void delete(Integer id) {
         animeDao.deleteById(id);
     }
+
+    public List<Anime> obtenerAnimesPorNombreGenero(String generoNombre) {
+        return animeDao.findByGeneroGnombre(generoNombre);
+    }
 }
